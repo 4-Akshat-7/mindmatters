@@ -5,112 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="home.css">
     <title>Mind Matters</title>
-    <style>
-        .container {
-            --uib-size: 45px;
-            --uib-color: black;
-            --uib-speed: 2.5s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: var(--uib-size);
-            width: var(--uib-size);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 999; /* Adjust the z-index to make sure the loader appears above other elements */
-            display: none; /* Hide the loader by default */
-        }
-
-        .slice {
-            position: relative;
-            height: calc(var(--uib-size) / 6);
-            width: 100%;
-        }
-
-        .slice::before,
-        .slice::after {
-            --uib-a: calc(var(--uib-speed) / -2);
-            --uib-b: calc(var(--uib-speed) / -6);
-            content: '';
-            position: absolute;
-            top: 0;
-            left: calc(50% - var(--uib-size) / 12);
-            height: 100%;
-            width: calc(100% / 6);
-            border-radius: 50%;
-            background-color: var(--uib-color);
-            flex-shrink: 0;
-            animation: orbit var(--uib-speed) linear infinite;
-            transition: background-color 0.3s ease;
-        }
-
-        .slice:nth-child(1)::after {
-            animation-delay: var(--uib-a);
-        }
-
-        .slice:nth-child(2)::before {
-            animation-delay: var(--uib-b);
-        }
-
-        .slice:nth-child(2)::after {
-            animation-delay: calc(var(--uib-a) + var(--uib-b));
-        }
-
-        .slice:nth-child(3)::before {
-            animation-delay: calc(var(--uib-b) * 2);
-        }
-        .slice:nth-child(3)::after {
-            animation-delay: calc(var(--uib-a) + var(--uib-b) * 2);
-        }
-
-        .slice:nth-child(4)::before {
-            animation-delay: calc(var(--uib-b) * 3);
-        }
-        .slice:nth-child(4)::after {
-            animation-delay: calc(var(--uib-a) + var(--uib-b) * 3);
-        }
-
-        .slice:nth-child(5)::before {
-            animation-delay: calc(var(--uib-b) * 4);
-        }
-        .slice:nth-child(5)::after {
-            animation-delay: calc(var(--uib-a) + var(--uib-b) * 4);
-        }
-
-        .slice:nth-child(6)::before {
-            animation-delay: calc(var(--uib-b) * 5);
-        }
-        .slice:nth-child(6)::after {
-            animation-delay: calc(var(--uib-a) + var(--uib-b) * 5);
-        }
-
-        @keyframes orbit {
-            0% {
-                transform: translateX(calc(var(--uib-size) * 0.25)) scale(0.73684);
-                opacity: 0.65;
-            }
-            /* ... (rest of the keyframes) ... */
-            100% {
-                transform: translateX(calc(var(--uib-size) * 0.25)) scale(0.73684);
-                opacity: 0.65;
-            }
-        }
-    </style>
 </head>
 <body>
-
-    <!-- Loader Container -->
-    <div class="container">
-        <div class="slice"></div>
-        <div class="slice"></div>
-        <div class="slice"></div>
-        <div class="slice"></div>
-        <div class="slice"></div>
-        <div class="slice"></div>
-    </div>
 
     <header>
         <div class="logo">Mind Matters</div>
@@ -125,25 +21,6 @@
             <a href="managemeds.html" class="button">Manage Meds</a>
         </div>
     </main>
-
-    <!-- Your website content goes here -->
-
-    <!-- Your loader script if needed -->
-    <script>
-        // Show the loader when needed (you can trigger this with JavaScript)
-        function showLoader() {
-            document.querySelector('.container').style.display = 'flex';
-        }
-
-        // Hide the loader when your content is loaded
-        function hideLoader() {
-            document.querySelector('.container').style.display = 'none';
-        }
-
-        // Example usage:
-        // Call showLoader() before starting an asynchronous operation (e.g., fetching data)
-        // Call hideLoader() when the operation is complete
-    </script>
 
 </body>
 </html>

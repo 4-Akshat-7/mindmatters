@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Exercise</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #C49E78;
+            margin: 0;
+        }
+
+        #breathContainer {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            text-align: center;
+        }
+
+        #breathCircle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #87CEEB;
+            border-radius: 50%;
+            transform-origin: center;
+            animation: breatheAnimation 11s infinite alternate;
+            animation-delay: 1s;
+        }
+
+        #breathText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #fff;
+        }
+
+        @keyframes breatheAnimation {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="breathContainer">
+        <div id="breathCircle"></div>
+        <div id="breathText">Breathe In</div>
+    </div>
+
+    <script>
+        const breathText = document.getElementById('breathText');
+
+        function startBreathing() {
+            breathText.textContent = 'Breathe In';
+            setTimeout(() => {
+                breathText.textContent = 'Breathe Out';
+            }, 7000); // Inhale for 4 seconds and exhale for 7 seconds
+        }
+
+        setInterval(() => {
+            startBreathing();
+        }, 12000); // Total cycle time (4s inhale + 7s exhale)
+
+        // Initial call
+        startBreathing();
+    </script>
+
+</body>
+</html>

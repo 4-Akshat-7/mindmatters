@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color:#C49E78;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#searchBar {
+    padding: 8px;
+    margin: 10px;
+    width: 70%;
+}
+
+main {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #fff;
+    background-color:#C49E78;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color:#C49E78;
+}
+body {
+    background: url('beigemarble.jpg') center/cover no-repeat fixed;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* 0.5 represents the opacity (50%) */
+    z-index: -1; /* Place the overlay behind the content */
+}

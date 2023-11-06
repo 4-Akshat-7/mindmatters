@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Score Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #nutritionForm {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #3498db;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        #nutritionList {
+            list-style: none;
+            padding: 0;
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        #totalScore {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="nutritionForm">
+        <h2>Nutrition Score Calculator</h2>
+        <form id="foodForm">
+            <label for="foodName">Food Name:</label>
+            <input type="text" id="foodName" required>
+            <br><br>
+            <label for="servings">Servings (1 serving = 100g):</label>
+            <input type="number" id="servings" min="1" required>
+            <button type="button" onclick="addFood()">Add Food</button>
+        </form>
+    </div>
+
+    <ul id="nutritionList"></ul>
+
+    <div id="totalScore">Total Nutrition Score: <span id="score">0</span></div>
+
+    <script>
+        let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
+
+        function addFood() {
+            const foodName = document.getElementById('foodName').value;
+            const servings = parseInt(document.getElementById('servings').value);
+
+            // Simulated nutrient values (replace with actual API call)
+            const nutrients = {
+                calories: 50,
+                protein: 2,
+                carbs: 10,
+                fat: 1,
+            };
+
+            const foodScore = calculateScore(nutrients, servings);
+            totalScore += foodScore;
+
+            updateUI(foodName, foodScore);
+            updateTotalScore();
+
+            // Save totalScore to local storage
+            localStorage.setItem('totalScore', totalScore.toString());
+        }
+
+        function calculateScore(nutrients, servings) {
+            // Simple scoring algorithm (replace with your own logic)
+            return servings * (nutrients.calories + nutrients.protein + nutrients.carbs + nutrients.fat);
+        }
+
+        function updateUI(foodName, foodScore) {
+            const nutritionList = document.getElementById('nutritionList');
+            const newItem = document.createElement('li');
+            newItem.textContent = `${foodName}: ${foodScore.toFixed(2)} points`;
+            nutritionList.appendChild(newItem);
+        }
+
+        function updateTotalScore() {
+            const totalScoreElement = document.getElementById('score');
+            totalScoreElement.textContent = totalScore.toFixed(2);
+        }
+    </script>
+
+</body>
+</html>

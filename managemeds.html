@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Health Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .medicine-tracker {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .medicine-entry {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medicine-entry p {
+            margin: 0;
+        }
+
+        .medicine-entry a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Existing code -->
+
+    <div class="medicine-tracker">
+        <h2>Medicine Tracker</h2>
+        <label for="medicineName">Medicine/Salt Name:</label>
+        <input type="text" id="medicineName" placeholder="Enter medicine or salt name">
+        <label for="quantity">Quantity Bought:</label>
+        <input type="number" id="quantity" min="1">
+        <label for="dosagePerWeek">Dosage per Week:</label>
+        <input type="number" id="dosagePerWeek" min="1">
+        <button onclick="trackMedicine()">Add Medicine</button>
+        <div id="medicineList"></div>
+    </div>
+
+    <script>
+        function trackMedicine() {
+            const medicineName = document.getElementById('medicineName').value;
+            const quantity = document.getElementById('quantity').value;
+            const dosagePerWeek = document.getElementById('dosagePerWeek').value;
+
+            const medicineList = document.getElementById('medicineList');
+
+            // Validate input
+            if (!medicineName || !quantity || !dosagePerWeek) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create a new medicine entry
+            const medicineEntry = document.createElement('div');
+            medicineEntry.className = 'medicine-entry';
+            medicineEntry.innerHTML = `<p>${medicineName}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a 	    href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(medicineName)}" target="_blank">Buy Now</a>`;
+            medicineList.appendChild(medicineEntry);
+
+            // Clear input fields
+            document.getElementById('medicineName').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('dosagePerWeek').value = '';
+        }
+    </script>
+
+</body>
+</html>

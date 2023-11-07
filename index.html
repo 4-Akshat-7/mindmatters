@@ -11,6 +11,7 @@
     <header>
         <div class="logo">Mind Matters</div>
         <input type="text" id="searchBar" placeholder="Search mental health topics">
+        <button onclick="search()">Search</button>
     </header>
 
     <main>
@@ -21,6 +22,22 @@
             <a href="managemeds.html" class="button">Manage Meds</a>
         </div>
     </main>
+
+    <script>
+        function search() {
+            const searchQuery = document.getElementById('searchBar').value.trim();
+
+            if (searchQuery === '') {
+                return;
+            }
+
+            // Construct the URL dynamically
+            const searchUrl = `https://www.mayoclinic.org/diseases-conditions/${encodeURIComponent(searchQuery)}`;
+
+            // Open a new page with the constructed URL
+            window.open(searchUrl, '_blank');
+        }
+    </script>
 
 </body>
 </html>

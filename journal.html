@@ -7,21 +7,29 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f2f2f2;
+            background-image: url('bg.gif');
+            background-size: cover;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
         header {
-            background-color: #C49E78;
+            background-color: #8000FF;
             color: #fff;
             padding: 10px;
             text-align: center;
         }
 
         #journalInput {
-            width: 70%;
-            margin: 10px;
+            width: 200%;
+            margin: 10px -180px;
             padding: 8px;
+	    
         }
 
         #journalList {
@@ -56,7 +64,27 @@
 
         .journalContainer {
             max-width: 600px;
-            margin: 20px auto;
+            margin: 100px auto;
+            text-align: center middle;
+        }
+
+        .buttonContainer button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        /* Save button background color */
+        .buttonContainer button:first-child {
+            background-color: #4CAF50; /* Green */
+        }
+
+        /* Reset button background color */
+        .buttonContainer button:last-child {
+            background-color: #f44336; /* Red */
         }
     </style>
     <title>Journal App</title>
@@ -70,8 +98,10 @@
 
     <div class="journalContainer">
         <textarea id="journalInput" placeholder="Write your journal entry..."></textarea>
-        <button onclick="saveJournal()">Save Journal</button>
-        <button id="resetButton" onclick="resetJournals()">Reset Journals</button>
+        <div class="buttonContainer">
+            <button onclick="saveJournal()">Save Journal</button>
+            <button id="resetButton" onclick="resetJournals()">Reset Journals</button>
+        </div>
 
         <ul id="journalList"></ul>
     </div>

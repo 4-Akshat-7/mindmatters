@@ -9,14 +9,14 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('bg.gif'); /* Background image */
-            background-size: cover; /* Ensure the background image covers the entire viewport */
+            background-image: url('bg.gif');
+            background-size: cover;
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Set the body height to 100% of viewport height */
+            height: 100vh;
         }
 
         .medicine-tracker {
@@ -26,8 +26,8 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 50%; /* Reduce the width to half */
-            margin: 0 auto; /* Center-align the .medicine-tracker */
+            width: 50%;
+            margin: 0 auto;
         }
 
         .input-container {
@@ -38,7 +38,7 @@
 
         h2 {
             color: #333;
-            text-align: center; /* Center-align the heading */
+            text-align: center;
         }
 
         label {
@@ -49,7 +49,7 @@
         }
 
         input {
-            width: 100%; /* Keep input width 100% within the .input-container */
+            width: 100%;
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -92,8 +92,6 @@
 
 <body>
 
-    <!-- Existing code -->
-
     <div class="medicine-tracker">
         <h2>Medicine Tracker</h2>
         <div class="input-container">
@@ -113,29 +111,60 @@
     </div>
 
     <script>
+        window.onload = function () {
+            const storedMedicines = JSON.parse(localStorage.getItem('medicines')) || [];
+            const medicineList = document.getElementById('medicineList');
+
+            storedMedicines.forEach(function (medicineEntry) {
+                const { name, quantity, dosagePerWeek } = medicineEntry;
+                const medicineEntryElement = document.createElement('div');
+                medicineEntryElement.className = 'medicine-entry';
+                medicineEntryElement.innerHTML = `<p>${name}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(name)}" target="_blank">Buy Now</a><button onclick="removeMedicine(this)">Delete</button>`;
+                medicineList.appendChild(medicineEntryElement);
+            });
+        };
+
         function trackMedicine() {
             const medicineName = document.getElementById('medicineName').value;
             const quantity = document.getElementById('quantity').value;
             const dosagePerWeek = document.getElementById('dosagePerWeek').value;
 
-            const medicineList = document.getElementById('medicineList');
-
-            // Validate input
             if (!medicineName || !quantity || !dosagePerWeek) {
                 alert('Please fill in all fields.');
                 return;
             }
 
-            // Create a new medicine entry
-            const medicineEntry = document.createElement('div');
-            medicineEntry.className = 'medicine-entry';
-            medicineEntry.innerHTML = `<p>${medicineName}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(medicineName)}" target="_blank">Buy Now</a>`;
-            medicineList.appendChild(medicineEntry);
+            const medicineEntry = {
+                name: medicineName,
+                quantity: quantity,
+                dosagePerWeek: dosagePerWeek
+            };
 
-            // Clear input fields
+            const storedMedicines = JSON.parse(localStorage.getItem('medicines')) || [];
+            storedMedicines.push(medicineEntry);
+
+            localStorage.setItem('medicines', JSON.stringify(storedMedicines));
+
+            const medicineList = document.getElementById('medicineList');
+            const medicineEntryElement = document.createElement('div');
+            medicineEntryElement.className = 'medicine-entry';
+            medicineEntryElement.innerHTML = `<p>${medicineName}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(medicineName)}" target="_blank">Buy Now</a><button onclick="removeMedicine(this)">Delete</button>`;
+            medicineList.appendChild(medicineEntryElement);
+
             document.getElementById('medicineName').value = '';
             document.getElementById('quantity').value = '';
             document.getElementById('dosagePerWeek').value = '';
+        }
+
+        function removeMedicine(button) {
+            const medicineEntry = button.parentElement;
+            medicineEntry.remove();
+
+            const storedMedicines = JSON.parse(localStorage.getItem('medicines')) || [];
+            const index = Array.from(medicineEntry.parentNode.children).indexOf(medicineEntry);
+            storedMedicines.splice(index, 1);
+
+            localStorage.setItem('medicines', JSON.stringify(storedMedicines));
         }
     </script>
 

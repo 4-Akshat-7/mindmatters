@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,21 +9,36 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-image: url('bg.gif'); /* Background image */
+            background-size: cover; /* Ensure the background image covers the entire viewport */
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Set the body height to 100% of viewport height */
         }
 
         .medicine-tracker {
+            display: flex;
+            flex-direction: column;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin-bottom: 20px;
+            width: 50%; /* Reduce the width to half */
+            margin: 0 auto; /* Center-align the .medicine-tracker */
+        }
+
+        .input-container {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
         }
 
         h2 {
             color: #333;
+            text-align: center; /* Center-align the heading */
         }
 
         label {
@@ -33,7 +49,7 @@
         }
 
         input {
-            width: 100%;
+            width: 100%; /* Keep input width 100% within the .input-container */
             padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
@@ -73,18 +89,25 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Existing code -->
 
     <div class="medicine-tracker">
         <h2>Medicine Tracker</h2>
-        <label for="medicineName">Medicine/Salt Name:</label>
-        <input type="text" id="medicineName" placeholder="Enter medicine or salt name">
-        <label for="quantity">Quantity Bought:</label>
-        <input type="number" id="quantity" min="1">
-        <label for="dosagePerWeek">Dosage per Week:</label>
-        <input type="number" id="dosagePerWeek" min="1">
+        <div class="input-container">
+            <label for="medicineName">Medicine/Salt Name:</label>
+            <input type="text" id="medicineName" placeholder="Enter medicine or salt name">
+        </div>
+        <div class="input-container">
+            <label for="quantity">Quantity Bought:</label>
+            <input type="number" id="quantity" min="1">
+        </div>
+        <div class="input-container">
+            <label for="dosagePerWeek">Dosage per Week:</label>
+            <input type="number" id="dosagePerWeek" min="1">
+        </div>
         <button onclick="trackMedicine()">Add Medicine</button>
         <div id="medicineList"></div>
     </div>
@@ -106,7 +129,7 @@
             // Create a new medicine entry
             const medicineEntry = document.createElement('div');
             medicineEntry.className = 'medicine-entry';
-            medicineEntry.innerHTML = `<p>${medicineName}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a 	    href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(medicineName)}" target="_blank">Buy Now</a>`;
+            medicineEntry.innerHTML = `<p>${medicineName}</p><p>${quantity} units</p><p>${dosagePerWeek} doses per week</p><a href="https://www.pharmeasy.in/search/all?name=${encodeURIComponent(medicineName)}" target="_blank">Buy Now</a>`;
             medicineList.appendChild(medicineEntry);
 
             // Clear input fields
@@ -117,4 +140,5 @@
     </script>
 
 </body>
+
 </html>

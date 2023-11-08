@@ -18,8 +18,14 @@
         }
 
         .logo {
-            font-size: 24px;
+            margin: 0px 0; /* Adjust top and bottom margins */
+            font-size: 5px;
             font-weight: bold;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
         }
 
         #searchBar {
@@ -40,19 +46,18 @@
             margin: 100px ; 
         }
 
-	.button {
-    	
-	display: inline-block;
-    		width: 75%;
-    		margin: 0 auto; 
-    		padding: 15px;
-    		font-size: 18px;
-    		text-decoration: none;
-    		color: #fff;
-    		background-color: #C49E78;
-    		border-radius: 5px;
-    		transition: background-color 0.3s ease;
-	}
+        .button {
+            display: inline-block;
+            width: 75%;
+            margin: 0 auto; 
+            padding: 15px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #C49E78;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
 
         .button:hover {
             background-color:#913831; 
@@ -74,7 +79,7 @@
 <body>
 
     <header>
-        <div class="logo">Your Logo Here</div>
+        <div class="logo"><img src="mindmatters.png" alt="Mind Matters Logo"></div>
         <input type="text" id="searchBar" placeholder="Search mental health topics">
         <button onclick="search()">Search</button>
     </header>
@@ -88,25 +93,21 @@
         </div>
     </main>
 
-	<script>
-    function search() {
-        const searchQuery = document.getElementById('searchBar').value.trim();
+    <script>
+        function search() {
+            const searchQuery = document.getElementById('searchBar').value.trim();
 
-        if (searchQuery === '') {
-            return;
+            if (searchQuery === '') {
+                return;
+            }
+
+            const searchUrl = `https://www.mayoclinic.org/diseases-conditions/${encodeURIComponent(searchQuery)}`;
+
+            window.open(searchUrl, '_blank');
+
+            document.getElementById('searchBar').value = '';
         }
-
-        
-        const searchUrl = `https://www.mayoclinic.org/diseases-conditions/${encodeURIComponent(searchQuery)}`;
-
-        
-        window.open(searchUrl, '_blank');
-
-       
-        document.getElementById('searchBar').value = '';
-    }
-</script>
-
+    </script>
 
 </body>
 </html>

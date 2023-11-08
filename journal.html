@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,22 +58,10 @@
             max-width: 600px;
             margin: 20px auto;
         }
-
-        #totalScoreButton {
-            display: none;
-        }
-
-        #resetButton {
-            background-color: #85603f;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
     </style>
     <title>Journal App</title>
 </head>
+
 <body>
 
     <header>
@@ -100,7 +89,7 @@
             }
 
             const currentDateTime = new Date().toLocaleString().replace(/[^\w\s]/gi, '');
-            const fileName = `${currentDateTime}_journal.html`;
+            const fileName = `${currentDateTime.replace(/\/|,|\s|:/g, '_')}_journal.html`;
 
             // Save the journal entry to local storage
             saveToLocalStorage(fileName, journalInput);
@@ -175,11 +164,18 @@
 
         function loadJournals() {
             const journalList = document.getElementById('journalList');
+            
+            // Clear existing list items
+            journalList.innerHTML = '';
 
-            // Iterate through local storage and load saved journals
+            // Iterate through local storage and load saved journals with valid keys
             for (let i = 0; i < localStorage.length; i++) {
                 const fileName = localStorage.key(i);
-                updateJournalList(fileName);
+
+                // Check if the key follows the specific format of date and time
+                if (/^\d{8}_\d{6}_journal\.html$/.test(fileName)) {
+                    updateJournalList(fileName);
+                }
             }
         }
 

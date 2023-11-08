@@ -10,7 +10,7 @@ function analyzeMood() {
         return;
     }
 
-    var mood = 2.5 + 0.3 * sleep + 0.75 * exercise + 0.00175 * nutrition;
+    var mood = 2.5 + 0.2 * sleep + 0.175 * exercise + 0.00175 * nutrition;
 
     document.getElementById("predictedMood").innerText = mood.toFixed(2);
     document.getElementById("result").style.display = "block";

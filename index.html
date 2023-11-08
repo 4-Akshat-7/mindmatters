@@ -7,18 +7,18 @@
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
-            background: url('beigemarble.jpg') center/cover no-repeat fixed;
+            background: url('1.png') center/cover no-repeat fixed;
         }
 
         header {
-            background-color: #C49E78;
+            background-color: #101010;
             padding: 10px;
             text-align: center;
             color: #fff;
         }
 
         .logo {
-            margin: 0px 0; /* Adjust top and bottom margins */
+            margin: 0px 0;
             font-size: 5px;
             font-weight: bold;
         }
@@ -42,25 +42,37 @@
         .buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 30px; 
-            margin: 100px ; 
+            grid-gap: 30px;
+            margin: 100px;
         }
 
         .button {
             display: inline-block;
-            width: 75%;
-            margin: 0 auto; 
+            width: 60%;
+            margin: 0 auto;
             padding: 15px;
-            font-size: 18px;
+            font-size: 20px;
             text-decoration: none;
             color: #fff;
-            background-color: #C49E78;
-            border-radius: 5px;
+            background-color: #5a7eb5;
+            border-radius: 150px;
             transition: background-color 0.3s ease;
         }
 
         .button:hover {
-            background-color:#913831; 
+           background-image: url('2.gif');
+           background-size: cover;
+	   background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .button:focus {
+            background-image: url('2.gif');
+            background-size: cover;
+	    background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .button:animated {
+            background-image: none;
         }
 
         body::before {
@@ -70,8 +82,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.2); 
-            z-index: -1; 
+            background-color: rgba(0, 0, 0, 0.01);
+            z-index: -1;
         }
     </style>
     <title>Your Page Title</title>
@@ -86,10 +98,10 @@
 
     <main>
         <div class="buttons">
-            <a href="nutrition.html" class="button">Nutrition Score</a>
-            <a href="mood.html" class="button">Mood Predictor</a>
-            <a href="breathing.html" class="button">Breathing Exercise</a>
-            <a href="managemeds.html" class="button">Manage Meds</a>
+            <a href="nutrition.html" class="button" tabindex="1">Nutrition Score</a>
+            <a href="mood.html" class="button" tabindex="2">Mood Predictor</a>
+            <a href="breathing.html" class="button" tabindex="3">Breathing Exercise</a>
+            <a href="managemeds.html" class="button" tabindex="4">Manage Meds</a>
         </div>
     </main>
 

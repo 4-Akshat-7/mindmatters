@@ -12,7 +12,7 @@ function analyzeMood() {
 
     // Simple linear regression (for demonstration purposes)
     // You might want to use a more sophisticated model in a real-world scenario
-    var mood = 1.5 + 0.3 * sleep + 0.1 * exercise + 0.02 * nutrition;
+    var mood = 2.5 + 0.3 * sleep + 0.1 * exercise + 0.00175 * nutrition;
 
     // Display result
     document.getElementById("predictedMood").innerText = mood.toFixed(2);

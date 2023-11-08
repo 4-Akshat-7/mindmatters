@@ -1,191 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Score Calculator</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f2f2f2;
+            background: url('bg.gif') center/cover no-repeat;
             margin: 0;
-        }
-
-        header {
-            background-color: #C49E78;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        #journalInput {
-            width: 70%;
-            margin: 10px;
-            padding: 8px;
-        }
-
-        #journalList {
-            list-style-type: none;
             padding: 0;
-        }
-
-        .journalEntry {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin: 10px;
-            padding: 10px;
+            justify-content: space-between; /* Adjusted for stretching to the bottom */
+            height: 100vh;
+            background-size: 100% 100%;
+        }
+
+        #nutritionForm {
             background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative; /* Added position relative */
         }
 
-        .deleteButton {
-            background-color: #85603f;
-            color: #fff;
-            padding: 5px 10px;
+        h2 {
+            color: #3498db;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        input {
+            width: calc(100% - 20px); /* Adjusted width */
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #fff;
+            color: #3498db;
+            padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            margin-right: 10px;
+            margin-top: 10px;
+            font-size: 16px;
         }
 
-        .journalEntry:hover {
-            background-color: #f5f5f5;
+        #loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            position: absolute; /* Added position absolute */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
-        .journalContainer {
-            max-width: 600px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #nutritionList {
+            list-style: none;
+            padding: 0;
+            max-width: 400px;
             margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        #totalScoreContainer {
+            background-color: #fff;
+            border-radius: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 460px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 20px;
+            margin: 20px; /* Adjusted margin-top */
+            position: relative; /* Added position relative */
+        }
+
+        #totalScore {
+            font-size: 18px;
+            margin-top: 0px;
+            color: #27ae60;
         }
     </style>
-    <title>Journal App</title>
 </head>
-
 <body>
 
-    <header>
-        <h1>Personal Journal</h1>
-    </header>
+    <div id="nutritionForm">
+        <h2>Nutrition Score Calculator</h2>
+        <form id="foodForm">
+            <label for="foodName">Food Name:</label>
+            <input type="text" id="foodName" required>
+            <br><br>
+            <label for="servings">Servings (1 serving = 100g):</label>
+            <input type="number" id="servings" min="1" required>
+            <button type="button" onclick="addFood()">Add Food</button>
+            <button type="button" onclick="manualReset()">Manual Reset</button>
+            <div id="loader"></div>
+        </form>
+    </div>
 
-    <div class="journalContainer">
-        <textarea id="journalInput" placeholder="Write your journal entry..."></textarea>
-        <button onclick="saveJournal()">Save Journal</button>
-        <button id="resetButton" onclick="resetJournals()">Reset Journals</button>
+    <ul id="nutritionList"></ul>
 
-        <ul id="journalList"></ul>
+    <div id="totalScoreContainer">
+        <div id="totalScore">Total Nutrition Score: <span id="score">0</span></div>
     </div>
 
     <script>
-        // Load saved journals from local storage on page load
-        document.addEventListener('DOMContentLoaded', loadJournals);
+        let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
 
-        function saveJournal() {
-            const journalInput = document.getElementById('journalInput').value.trim();
+        // Update total score on page load
+        updateTotalScore();
 
-            if (journalInput === '') {
-                alert('Please write something in your journal.');
-                return;
-            }
+        async function addFood() {
+            const foodName = document.getElementById('foodName').value;
+            const servings = parseInt(document.getElementById('servings').value);
 
-            const currentDateTime = new Date().toLocaleString().replace(/[^\w\s]/gi, '');
-            const fileName = `${currentDateTime}_journal.html`;
+            const apiKey = 'zCoMaVeKCgl2nVfbe6tG469MYVBtE1YE5uTgKAkb';
+            const apiUrl = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${apiKey}&query=${foodName}`;
 
-            // Save the journal entry to local storage
-            saveToLocalStorage(fileName, journalInput);
+            // Show loader while fetching data
+            document.getElementById('loader').style.display = 'block';
 
-            // Clear the input form
-            document.getElementById('journalInput').value = '';
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-            // Update the list of journals
-            updateJournalList(fileName);
-        }
+                // Hide loader after data is fetched
+                document.getElementById('loader').style.display = 'none';
 
-        function updateJournalList(fileName) {
-            const journalList = document.getElementById('journalList');
-            const entry = document.createElement('li');
-            entry.className = 'journalEntry';
+                if (response.ok && data.foods && data.foods.length > 0) {
+                    const food = data.foods[0];
+                    const nutrients = {
+                        calories: food.foodNutrients.find(nutrient => nutrient.nutrientName === 'Energy').value,
+                        protein: food.foodNutrients.find(nutrient => nutrient.nutrientName === 'Protein').value,
+                        carbs: food.foodNutrients.find(nutrient => nutrient.nutrientName === 'Carbohydrate, by difference').value,
+                        fat: food.foodNutrients.find(nutrient => nutrient.nutrientName === 'Total lipid (fat)').value,
+                    };
 
-            // Create delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.className = 'deleteButton';
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', (event) => deleteJournal(event, fileName));
+                    const foodScore = calculateScore(nutrients, servings);
+                    totalScore += foodScore;
 
-            // Create journal entry button
-            const journalButton = document.createElement('button');
-            journalButton.textContent = fileName;
-            journalButton.addEventListener('click', () => openJournal(fileName));
+                    updateUI(foodName, foodScore);
+                    updateTotalScore();
 
-            entry.appendChild(deleteButton);
-            entry.appendChild(journalButton);
-
-            journalList.appendChild(entry);
-        }
-
-        function openJournal(fileName) {
-            // Retrieve the journal entry from local storage
-            const journalContent = localStorage.getItem(fileName);
-
-            // Create a new Blob with the HTML content
-            const blob = new Blob([`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${fileName}</title>
-</head>
-<body>
-    <div style="max-width: 600px; margin: 20px auto; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;">
-        <h2>${fileName}</h2>
-        <p>${journalContent}</p>
-    </div>
-</body>
-</html>`], { type: 'text/html' });
-
-            // Create an Object URL for the Blob
-            const objectURL = URL.createObjectURL(blob);
-
-            // Open the HTML page in a new tab
-            window.open(objectURL, '_blank');
-        }
-
-        function deleteJournal(event, fileName) {
-            // Remove the corresponding journal entry from local storage
-            localStorage.removeItem(fileName);
-
-            // Remove the entry from the displayed list
-            const journalList = document.getElementById('journalList');
-            const entry = event.target.parentElement;
-            journalList.removeChild(entry);
-        }
-
-        function saveToLocalStorage(fileName, journalContent) {
-            // Save the journal entry to local storage
-            localStorage.setItem(fileName, journalContent);
-        }
-
-        function loadJournals() {
-            const journalList = document.getElementById('journalList');
-
-            // Iterate through local storage and load saved journals
-            for (let i = 0; i < localStorage.length; i++) {
-                const fileName = localStorage.key(i);
-                updateJournalList(fileName);
+                    // Save totalScore to local storage
+                    localStorage.setItem('totalScore', totalScore.toString());
+                } else {
+                    console.error(`Error: ${response.status} - ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
         }
 
-        function resetJournals() {
-            // Clear all journals from local storage
-            localStorage.clear();
-
-            // Clear the displayed list
-            document.getElementById('journalList').innerHTML = '';
-
-	
+        function calculateScore(nutrients, servings) {
+            return servings * (nutrients.calories + nutrients.protein + nutrients.carbs + nutrients.fat);
         }
-	 localStorage.removeItem(medicines);
-	localStorage.removeItem(totalScore);
+
+        function updateUI(foodName, foodScore) {
+            const nutritionList = document.getElementById('nutritionList');
+            const newItem = document.createElement('li');
+            newItem.textContent = `${foodName}: ${foodScore.toFixed(2)} points`;
+            nutritionList.appendChild(newItem);
+
+            // Remove the item after 3 seconds
+            setTimeout(() => {
+                newItem.remove();
+            }, 3000);
+        }
+
+        function updateTotalScore() {
+            const totalScoreElement = document.getElementById('score');
+            totalScoreElement.textContent = totalScore.toFixed(2);
+        }
+
+        // Reset totalScore at 12 am
+        setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                totalScore = 0;
+                updateTotalScore();
+                localStorage.setItem('totalScore', totalScore.toString());
+            }
+        }, 60000); // Check every minute
+
+        // Manual reset function
+        function manualReset() {
+            totalScore = 0;
+            updateTotalScore();
+            localStorage.setItem('totalScore', totalScore.toString());
+        }
     </script>
 
 </body>

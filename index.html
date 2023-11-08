@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,34 +61,46 @@
         }
 
         .button:hover {
-           background-image: url('2.gif');
-           background-size: cover;
-	   background-color: rgba(0, 0, 0, 0.2);
+            background-image: url('2.gif');
+            background-size: cover;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .button:focus {
             background-image: url('2.gif');
             background-size: cover;
-	    background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .button:animated {
             background-image: none;
         }
 
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.01);
-            z-index: -1;
+        .small-button {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background-color: #5a7eb5;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .small-button:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .bottom-left {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
         }
     </style>
     <title>Your Page Title</title>
 </head>
+
 <body>
 
     <header>
@@ -102,6 +115,10 @@
             <a href="mood.html" class="button" tabindex="2">Mood Predictor</a>
             <a href="breathing.html" class="button" tabindex="3">Breathing Exercise</a>
             <a href="managemeds.html" class="button" tabindex="4">Manage Meds</a>
+        </div>
+        <div class="bottom-left">
+            <a href="gethelp.html" class="small-button">Get Help</a>
+            <a href="journal.html" class="small-button">Journal</a>
         </div>
     </main>
 
@@ -122,4 +139,5 @@
     </script>
 
 </body>
+
 </html>

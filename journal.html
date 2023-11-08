@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+        }
+
+        header {
+            background-color: #C49E78;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #journalInput {
+            width: 70%;
+            margin: 10px;
+            padding: 8px;
+        }
+
+        #journalList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .journalEntry {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .deleteButton {
+            background-color: #85603f;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .journalEntry:hover {
+            background-color: #f5f5f5;
+        }
+
+        .journalContainer {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        #totalScoreButton {
+            display: none;
+        }
+
+        #resetButton {
+            background-color: #85603f;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Journal App</title>
+</head>
+<body>
+
+    <header>
+        <h1>Personal Journal</h1>
+    </header>
+
+    <div class="journalContainer">
+        <textarea id="journalInput" placeholder="Write your journal entry..."></textarea>
+        <button onclick="saveJournal()">Save Journal</button>
+        <button id="resetButton" onclick="resetJournals()">Reset Journals</button>
+
+        <ul id="journalList"></ul>
+    </div>
+
+    <script>
+        // Load saved journals from local storage on page load
+        document.addEventListener('DOMContentLoaded', loadJournals);
+
+        function saveJournal() {
+            const journalInput = document.getElementById('journalInput').value.trim();
+
+            if (journalInput === '') {
+                alert('Please write something in your journal.');
+                return;
+            }
+
+            const currentDateTime = new Date().toLocaleString().replace(/[^\w\s]/gi, '');
+            const fileName = `${currentDateTime}_journal.html`;
+
+            // Save the journal entry to local storage
+            saveToLocalStorage(fileName, journalInput);
+
+            // Update the list of journals
+            updateJournalList(fileName);
+        }
+
+        function updateJournalList(fileName) {
+            const journalList = document.getElementById('journalList');
+            const entry = document.createElement('li');
+            entry.className = 'journalEntry';
+
+            // Create delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'deleteButton';
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', (event) => deleteJournal(event, fileName));
+
+            // Create journal entry button
+            const journalButton = document.createElement('button');
+            journalButton.textContent = fileName;
+            journalButton.addEventListener('click', () => openJournal(fileName));
+
+            entry.appendChild(deleteButton);
+            entry.appendChild(journalButton);
+
+            journalList.appendChild(entry);
+        }
+
+        function openJournal(fileName) {
+            // Retrieve the journal entry from local storage
+            const journalContent = localStorage.getItem(fileName);
+
+            // Create a new Blob with the HTML content
+            const blob = new Blob([`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${fileName}</title>
+</head>
+<body>
+    <div style="max-width: 600px; margin: 20px auto; padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px;">
+        <h2>${fileName}</h2>
+        <p>${journalContent}</p>
+    </div>
+</body>
+</html>`], { type: 'text/html' });
+
+            // Create an Object URL for the Blob
+            const objectURL = URL.createObjectURL(blob);
+
+            // Open the HTML page in a new tab
+            window.open(objectURL, '_blank');
+        }
+
+        function deleteJournal(event, fileName) {
+            // Remove the corresponding journal entry from local storage
+            localStorage.removeItem(fileName);
+
+            // Remove the entry from the displayed list
+            const journalList = document.getElementById('journalList');
+            const entry = event.target.parentElement;
+            journalList.removeChild(entry);
+        }
+
+        function saveToLocalStorage(fileName, journalContent) {
+            // Save the journal entry to local storage
+            localStorage.setItem(fileName, journalContent);
+        }
+
+        function loadJournals() {
+            const journalList = document.getElementById('journalList');
+
+            // Iterate through local storage and load saved journals
+            for (let i = 0; i < localStorage.length; i++) {
+                const fileName = localStorage.key(i);
+                updateJournalList(fileName);
+            }
+        }
+
+        function resetJournals() {
+            // Clear all journals from local storage
+            localStorage.clear();
+
+            // Clear the displayed list
+            document.getElementById('journalList').innerHTML = '';
+        }
+    </script>
+
+</body>
+</html>

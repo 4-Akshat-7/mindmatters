@@ -3,13 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="home.css">
-    <title>Mind Matters</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('beigemarble.jpg') center/cover no-repeat fixed;
+        }
+
+        header {
+            background-color: #C49E78;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #searchBar {
+            padding: 8px;
+            margin: 10px;
+            width: 70%;
+        }
+
+        main {
+            text-align: center;
+            margin-top: 0px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 30px; 
+            margin: 100px ; 
+        }
+
+	.button {
+    	
+	display: inline-block;
+    		width: 75%;
+    		margin: 0 auto; 
+    		padding: 15px;
+    		font-size: 18px;
+    		text-decoration: none;
+    		color: #fff;
+    		background-color: #C49E78;
+    		border-radius: 5px;
+    		transition: background-color 0.3s ease;
+	}
+
+        .button:hover {
+            background-color:#913831; 
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2); 
+            z-index: -1; 
+        }
+    </style>
+    <title>Your Page Title</title>
 </head>
 <body>
 
     <header>
-        <div class="logo">Mind Matters</div>
+        <div class="logo">Your Logo Here</div>
         <input type="text" id="searchBar" placeholder="Search mental health topics">
         <button onclick="search()">Search</button>
     </header>
@@ -23,21 +88,25 @@
         </div>
     </main>
 
-    <script>
-        function search() {
-            const searchQuery = document.getElementById('searchBar').value.trim();
+	<script>
+    function search() {
+        const searchQuery = document.getElementById('searchBar').value.trim();
 
-            if (searchQuery === '') {
-                return;
-            }
-
-            // Construct the URL dynamically
-            const searchUrl = `https://www.mayoclinic.org/diseases-conditions/${encodeURIComponent(searchQuery)}`;
-
-            // Open a new page with the constructed URL
-            window.open(searchUrl, '_blank');
+        if (searchQuery === '') {
+            return;
         }
-    </script>
+
+        
+        const searchUrl = `https://www.mayoclinic.org/diseases-conditions/${encodeURIComponent(searchQuery)}`;
+
+        
+        window.open(searchUrl, '_blank');
+
+       
+        document.getElementById('searchBar').value = '';
+    }
+</script>
+
 
 </body>
 </html>

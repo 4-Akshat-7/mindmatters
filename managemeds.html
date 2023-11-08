@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Health Dashboard</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -88,6 +86,7 @@
             font-weight: bold;
         }
     </style>
+    <title>Health Dashboard</title>
 </head>
 
 <body>
@@ -158,13 +157,16 @@
 
         function removeMedicine(button) {
             const medicineEntry = button.parentElement;
+            const medicineName = medicineEntry.querySelector('p:first-child').textContent;
             medicineEntry.remove();
 
             const storedMedicines = JSON.parse(localStorage.getItem('medicines')) || [];
-            const index = Array.from(medicineEntry.parentNode.children).indexOf(medicineEntry);
-            storedMedicines.splice(index, 1);
+            const index = storedMedicines.findIndex(medicine => medicine.name === medicineName);
 
-            localStorage.setItem('medicines', JSON.stringify(storedMedicines));
+            if (index !== -1) {
+                storedMedicines.splice(index, 1);
+                localStorage.setItem('medicines', JSON.stringify(storedMedicines));
+            }
         }
     </script>
 

@@ -107,7 +107,7 @@
     </div>
 
     <script>
-        // Load saved journals from local storage on page load
+        
         document.addEventListener('DOMContentLoaded', loadJournals);
 
         function saveJournal() {
@@ -121,13 +121,13 @@
             const currentDateTime = new Date().toLocaleString().replace(/[^\w\s]/gi, '');
             const fileName = `${currentDateTime}_journal.html`;
 
-            // Save the journal entry to local storage
+        
             saveToLocalStorage(fileName, journalInput);
 
-            // Clear the input form
+            
             document.getElementById('journalInput').value = '';
 
-            // Update the list of journals
+            
             updateJournalList(fileName);
         }
 
@@ -135,20 +135,20 @@
             const excludedFileNames = ['totalScore', 'medicines'];
 
             if (excludedFileNames.includes(fileName.split('_')[0])) {
-                return; // Exclude specific file names
+                return; 
             }
 
             const journalList = document.getElementById('journalList');
             const entry = document.createElement('li');
             entry.className = 'journalEntry';
 
-            // Create delete button
+            
             const deleteButton = document.createElement('button');
             deleteButton.className = 'deleteButton';
             deleteButton.textContent = 'Delete';
             deleteButton.addEventListener('click', (event) => deleteJournal(event, fileName));
 
-            // Create journal entry button
+            
             const journalButton = document.createElement('button');
             journalButton.textContent = fileName;
             journalButton.addEventListener('click', () => openJournal(fileName));
@@ -160,10 +160,10 @@
         }
 
         function openJournal(fileName) {
-            // Retrieve the journal entry from local storage
+        
             const journalContent = localStorage.getItem(fileName);
 
-            // Create a new Blob with the HTML content
+            
             const blob = new Blob([`<!DOCTYPE html>
 <html lang="en">
 <head>
